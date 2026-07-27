@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Поддержка автора | Toolgool</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <!-- Основной контейнер -->
+    <main class="container">
+        <!-- Секция с аватаром и ником -->
+        <section class="header-section">
+            <div class="avatar-wrapper">
+                <img src="image/IMG.png" alt="Toolgool" class="avatar">
+            </div>
+            <h1 class="nickname" id="nicknameLink">Toolgool</h1>
+            <p class="description">Поддерживай проект</p>
+        </section>
+
+        <!-- Секция с кнопками банков -->
+        <section class="banks-section">
+            <div class="banks-container" id="banksContainer">
+                <!-- Кнопки банков будут автоматически добавлены здесь -->
+            </div>
+        </section>
+    </main>
+
+    <!-- Модальное окно -->
+    <div class="modal-overlay" id="modalOverlay">
+        <div class="modal-content">
+            <button class="modal-close" id="modalCloseBtn">
+                <span></span>
+                <span></span>
+            </button>
+            
+            <div class="modal-body">
+                <div class="qr-section">
+                    <img id="qrImage" src="" alt="QR Code" class="qr-code">
+                </div>
+                
+                <h2 class="modal-title">Реквизиты</h2>
+                
+                <div class="requisites" id="requisitesText">
+                    <!-- Реквизиты будут вставлены сюда -->
+                </div>
+            </div>
+
+            <button class="modal-button-close" id="modalButtonClose">Закрыть</button>
+        </div>
+    </div>
+
+    <!-- Скрипты -->
+    <script src="js/Bank.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>
