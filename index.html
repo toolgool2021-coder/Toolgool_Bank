@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Поддержка автора | Toolgool</title>
     <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 </head>
 <body>
     <!-- Основной контейнер -->
@@ -34,7 +35,7 @@
         </section>
     </main>
 
-    <!-- Модальное окно -->
+    <!-- Модальное окно для реквизитов -->
     <div class="modal-overlay" id="modalOverlay">
         <div class="modal-content">
             <button class="modal-close" id="modalCloseBtn">
@@ -55,6 +56,17 @@
             </div>
 
             <button class="modal-button-close" id="modalButtonClose">Закрыть</button>
+        </div>
+    </div>
+
+    <!-- Модальное окно для полноэкранного QR -->
+    <div class="qr-fullscreen-overlay" id="qrFullscreenOverlay">
+        <div class="qr-fullscreen-container">
+            <button class="qr-fullscreen-close" id="qrFullscreenCloseBtn">
+                <span></span>
+                <span></span>
+            </button>
+            <img id="qrFullscreenImage" src="" alt="QR Code Fullscreen" class="qr-fullscreen-image">
         </div>
     </div>
 
