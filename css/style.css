@@ -13,7 +13,7 @@ html {
 }
 
 body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: 'Inter', 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
     background: linear-gradient(135deg, #0a0e27 0%, #1a1a2e 50%, #16213e 100%);
     color: #e0e0e0;
     min-height: 100vh;
@@ -52,10 +52,10 @@ body::before {
 .container {
     max-width: 600px;
     margin: 0 auto;
-    padding: 40px 20px;
+    padding: 50px 20px;
     display: flex;
     flex-direction: column;
-    gap: 60px;
+    gap: 70px;
     animation: fadeInUp 0.8s ease-out;
 }
 
@@ -78,7 +78,7 @@ body::before {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 20px;
+    gap: 30px;
     text-align: center;
     animation: fadeInDown 0.8s ease-out 0.2s both;
 }
@@ -97,8 +97,8 @@ body::before {
 /* Обёртка аватара */
 .avatar-wrapper {
     position: relative;
-    width: 150px;
-    height: 150px;
+    width: 160px;
+    height: 160px;
     border-radius: 50%;
     background: linear-gradient(135deg, rgba(88, 44, 131, 0.3), rgba(44, 88, 131, 0.3));
     padding: 8px;
@@ -112,7 +112,7 @@ body::before {
 }
 
 .avatar-wrapper:hover {
-    transform: scale(1.05);
+    transform: scale(1.08);
     box-shadow: 0 12px 40px rgba(88, 44, 131, 0.5),
                 inset 0 0 20px rgba(255, 255, 255, 0.15);
 }
@@ -139,8 +139,8 @@ body::before {
 
 /* Ник с радужным переливанием */
 .nickname {
-    font-size: 2.5rem;
-    font-weight: 800;
+    font-size: 3rem;
+    font-weight: 900;
     background: linear-gradient(
         90deg,
         #ff0000 0%,
@@ -159,10 +159,11 @@ body::before {
     cursor: pointer;
     transition: filter 0.3s ease;
     letter-spacing: 2px;
+    margin: 10px 0;
 }
 
 .nickname:hover {
-    filter: drop-shadow(0 0 10px rgba(255, 100, 0, 0.6));
+    filter: drop-shadow(0 0 15px rgba(255, 100, 0, 0.7));
 }
 
 @keyframes rainbowShift {
@@ -176,11 +177,12 @@ body::before {
 
 /* Описание */
 .description {
-    font-size: 1rem;
-    color: rgba(224, 224, 224, 0.7);
-    font-weight: 300;
-    letter-spacing: 1px;
-    opacity: 0.8;
+    font-size: 1.05rem;
+    color: rgba(224, 224, 224, 0.75);
+    font-weight: 400;
+    letter-spacing: 0.5px;
+    line-height: 1.8;
+    opacity: 0.9;
 }
 
 /* =====================================
@@ -194,23 +196,23 @@ body::before {
 .banks-container {
     display: grid;
     grid-template-columns: 1fr;
-    gap: 16px;
+    gap: 20px;
 }
 
 /* Кнопка банка */
 .bank-button {
     display: flex;
     align-items: center;
-    gap: 16px;
-    padding: 18px 24px;
+    gap: 18px;
+    padding: 20px 28px;
     border: none;
-    border-radius: 30px;
+    border-radius: 35px;
     background: linear-gradient(135deg, rgba(88, 44, 131, 0.25) 0%, rgba(44, 88, 131, 0.25) 100%);
     backdrop-filter: blur(15px);
     border: 1px solid rgba(255, 255, 255, 0.2);
     color: #e0e0e0;
-    font-size: 1.1rem;
-    font-weight: 600;
+    font-size: 1.15rem;
+    font-weight: 650;
     cursor: pointer;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     box-shadow: 0 8px 32px rgba(88, 44, 131, 0.2);
@@ -236,7 +238,7 @@ body::before {
 .bank-button:hover {
     background: linear-gradient(135deg, rgba(88, 44, 131, 0.4) 0%, rgba(44, 88, 131, 0.4) 100%);
     border-color: rgba(255, 255, 255, 0.35);
-    transform: translateY(-4px);
+    transform: translateY(-5px);
     box-shadow: 0 16px 48px rgba(88, 44, 131, 0.4);
 }
 
@@ -246,16 +248,18 @@ body::before {
 
 /* Иконка банка */
 .bank-icon {
-    width: 48px;
-    height: 48px;
+    width: 52px;
+    height: 52px;
     border-radius: 12px;
     object-fit: contain;
     flex-shrink: 0;
     transition: transform 0.3s ease;
+    background: rgba(255, 255, 255, 0.05);
+    padding: 4px;
 }
 
 .bank-button:hover .bank-icon {
-    transform: scale(1.1) rotate(5deg);
+    transform: scale(1.15) rotate(5deg);
 }
 
 /* Название банка */
@@ -266,8 +270,8 @@ body::before {
 
 /* Индикатор (стрелка) */
 .bank-arrow {
-    width: 20px;
-    height: 20px;
+    width: 24px;
+    height: 24px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -275,17 +279,17 @@ body::before {
 }
 
 .bank-button:hover .bank-arrow {
-    transform: translateX(4px);
+    transform: translateX(5px);
 }
 
 .bank-arrow::after {
     content: '→';
-    font-size: 1.2rem;
+    font-size: 1.3rem;
     color: rgba(255, 255, 255, 0.7);
 }
 
 /* =====================================
-   МОДАЛЬНОЕ ОКНО
+   МОДАЛЬНОЕ ОКНО - ОСНОВНОЕ
    ===================================== */
 
 .modal-overlay {
@@ -314,8 +318,8 @@ body::before {
 .modal-content {
     background: linear-gradient(135deg, rgba(26, 26, 46, 0.95) 0%, rgba(22, 33, 62, 0.95) 100%);
     border-radius: 30px;
-    padding: 40px 30px;
-    max-width: 500px;
+    padding: 45px 35px;
+    max-width: 520px;
     width: 100%;
     backdrop-filter: blur(20px);
     border: 1px solid rgba(255, 255, 255, 0.2);
@@ -361,8 +365,8 @@ body::before {
     position: absolute;
     top: 20px;
     right: 20px;
-    width: 40px;
-    height: 40px;
+    width: 44px;
+    height: 44px;
     border: none;
     background: rgba(255, 255, 255, 0.1);
     border-radius: 50%;
@@ -381,10 +385,10 @@ body::before {
 
 .modal-close span {
     position: absolute;
-    width: 20px;
-    height: 2px;
+    width: 22px;
+    height: 2.5px;
     background: #e0e0e0;
-    border-radius: 1px;
+    border-radius: 2px;
 }
 
 .modal-close span:first-child {
@@ -399,7 +403,7 @@ body::before {
 .modal-body {
     display: flex;
     flex-direction: column;
-    gap: 30px;
+    gap: 35px;
     margin-bottom: 30px;
 }
 
@@ -420,14 +424,21 @@ body::before {
 }
 
 .qr-code {
-    width: 250px;
-    height: 250px;
+    width: 280px;
+    height: 280px;
     border-radius: 20px;
     padding: 15px;
     background: rgba(255, 255, 255, 0.95);
     box-shadow: 0 10px 40px rgba(88, 44, 131, 0.3);
     object-fit: contain;
     animation: zoomIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+    cursor: zoom-in;
+    transition: all 0.3s ease;
+}
+
+.qr-code:hover {
+    transform: scale(1.05);
+    box-shadow: 0 15px 50px rgba(88, 44, 131, 0.5);
 }
 
 @keyframes zoomIn {
@@ -443,30 +454,32 @@ body::before {
 
 /* Заголовок модаля */
 .modal-title {
-    font-size: 1.5rem;
-    font-weight: 700;
+    font-size: 1.6rem;
+    font-weight: 800;
     text-align: center;
     background: linear-gradient(135deg, #e0e0e0, #b0b0b0);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
     animation: fadeIn 0.6s ease-out 0.2s both;
+    letter-spacing: 0.5px;
 }
 
 /* Реквизиты */
 .requisites {
     background: rgba(88, 44, 131, 0.15);
-    border-left: 4px solid rgba(88, 44, 131, 0.6);
-    padding: 20px;
-    border-radius: 12px;
-    font-size: 0.95rem;
-    line-height: 1.8;
+    border-left: 5px solid rgba(88, 44, 131, 0.8);
+    padding: 24px;
+    border-radius: 15px;
+    font-size: 1rem;
+    line-height: 2;
     white-space: pre-wrap;
     word-break: break-word;
-    color: rgba(224, 224, 224, 0.9);
+    color: rgba(224, 224, 224, 0.95);
     animation: fadeIn 0.6s ease-out 0.3s both;
-    max-height: 300px;
+    max-height: 350px;
     overflow-y: auto;
+    font-family: 'Courier New', monospace;
 }
 
 .requisites::-webkit-scrollbar {
@@ -486,23 +499,24 @@ body::before {
 /* Кнопка закрытия */
 .modal-button-close {
     width: 100%;
-    padding: 16px;
+    padding: 18px;
     border: none;
-    border-radius: 20px;
+    border-radius: 22px;
     background: linear-gradient(135deg, rgba(88, 44, 131, 0.5) 0%, rgba(44, 88, 131, 0.5) 100%);
     color: #e0e0e0;
-    font-size: 1rem;
-    font-weight: 600;
+    font-size: 1.05rem;
+    font-weight: 700;
     cursor: pointer;
     transition: all 0.3s ease;
     border: 1px solid rgba(255, 255, 255, 0.2);
     animation: fadeIn 0.6s ease-out 0.4s both;
+    letter-spacing: 0.5px;
 }
 
 .modal-button-close:hover {
     background: linear-gradient(135deg, rgba(88, 44, 131, 0.7) 0%, rgba(44, 88, 131, 0.7) 100%);
     border-color: rgba(255, 255, 255, 0.35);
-    transform: translateY(-2px);
+    transform: translateY(-3px);
     box-shadow: 0 8px 24px rgba(88, 44, 131, 0.3);
 }
 
@@ -511,31 +525,191 @@ body::before {
 }
 
 /* =====================================
+   МОДАЛЬНОЕ ОКНО - ПОЛНОЭКРАННЫЙ QR
+   ===================================== */
+
+.qr-fullscreen-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.85);
+    backdrop-filter: blur(8px);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 2000;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    padding: 20px;
+}
+
+.qr-fullscreen-overlay.active {
+    display: flex;
+    opacity: 1;
+}
+
+/* Контейнер полноэкранного QR */
+.qr-fullscreen-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: zoomIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.qr-fullscreen-image {
+    max-width: 90vw;
+    max-height: 90vh;
+    width: auto;
+    height: auto;
+    border-radius: 25px;
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.98);
+    box-shadow: 0 25px 80px rgba(0, 0, 0, 0.7);
+    object-fit: contain;
+}
+
+/* Кнопка закрытия полноэкранного QR */
+.qr-fullscreen-close {
+    position: absolute;
+    top: 30px;
+    right: 30px;
+    width: 50px;
+    height: 50px;
+    border: none;
+    background: rgba(255, 255, 255, 0.15);
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    z-index: 2001;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.qr-fullscreen-close:hover {
+    background: rgba(255, 255, 255, 0.25);
+    transform: rotate(90deg);
+    border-color: rgba(255, 255, 255, 0.5);
+}
+
+.qr-fullscreen-close span {
+    position: absolute;
+    width: 26px;
+    height: 3px;
+    background: #ffffff;
+    border-radius: 2px;
+}
+
+.qr-fullscreen-close span:first-child {
+    transform: rotate(45deg);
+}
+
+.qr-fullscreen-close span:last-child {
+    transform: rotate(-45deg);
+}
+
+/* =====================================
    АДАПТИВНОСТЬ
    ===================================== */
 
 @media (max-width: 768px) {
     .container {
-        padding: 30px 15px;
-        gap: 40px;
+        padding: 40px 15px;
+        gap: 50px;
     }
 
     .nickname {
-        font-size: 2rem;
+        font-size: 2.2rem;
+        letter-spacing: 1.5px;
+    }
+
+    .description {
+        font-size: 1rem;
+        line-height: 1.7;
+    }
+
+    .avatar-wrapper {
+        width: 130px;
+        height: 130px;
+    }
+
+    .bank-button {
+        padding: 18px 22px;
+        font-size: 1.05rem;
+        gap: 14px;
+    }
+
+    .bank-icon {
+        width: 46px;
+        height: 46px;
+    }
+
+    .modal-content {
+        padding: 35px 25px;
+        border-radius: 25px;
+        max-width: 450px;
+    }
+
+    .qr-code {
+        width: 240px;
+        height: 240px;
+    }
+
+    .modal-title {
+        font-size: 1.4rem;
+    }
+
+    .requisites {
+        font-size: 0.95rem;
+        padding: 20px;
+        line-height: 1.8;
+    }
+
+    .qr-fullscreen-close {
+        width: 45px;
+        height: 45px;
+        top: 20px;
+        right: 20px;
+    }
+
+    .qr-fullscreen-image {
+        max-width: 85vw;
+        max-height: 85vh;
+    }
+}
+
+@media (max-width: 480px) {
+    .container {
+        padding: 25px 12px;
+        gap: 35px;
+    }
+
+    .nickname {
+        font-size: 1.8rem;
         letter-spacing: 1px;
     }
 
     .description {
-        font-size: 0.9rem;
+        font-size: 0.95rem;
+        line-height: 1.6;
     }
 
     .avatar-wrapper {
-        width: 120px;
-        height: 120px;
+        width: 110px;
+        height: 110px;
+    }
+
+    .banks-container {
+        gap: 14px;
     }
 
     .bank-button {
-        padding: 16px 20px;
+        padding: 15px 18px;
         font-size: 1rem;
         gap: 12px;
     }
@@ -546,8 +720,14 @@ body::before {
     }
 
     .modal-content {
-        padding: 30px 20px;
-        border-radius: 25px;
+        padding: 28px 18px;
+        border-radius: 20px;
+        max-width: 100%;
+    }
+
+    .modal-close {
+        width: 40px;
+        height: 40px;
     }
 
     .qr-code {
@@ -556,77 +736,31 @@ body::before {
     }
 
     .modal-title {
-        font-size: 1.3rem;
+        font-size: 1.2rem;
     }
 
     .requisites {
-        font-size: 0.85rem;
+        font-size: 0.9rem;
         padding: 16px;
-    }
-}
-
-@media (max-width: 480px) {
-    .container {
-        padding: 20px 12px;
-        gap: 30px;
-    }
-
-    .nickname {
-        font-size: 1.7rem;
-        letter-spacing: 0.5px;
-    }
-
-    .description {
-        font-size: 0.85rem;
-    }
-
-    .avatar-wrapper {
-        width: 100px;
-        height: 100px;
-    }
-
-    .banks-container {
-        gap: 12px;
-    }
-
-    .bank-button {
-        padding: 14px 16px;
-        font-size: 0.95rem;
-        gap: 10px;
-    }
-
-    .bank-icon {
-        width: 36px;
-        height: 36px;
-    }
-
-    .modal-content {
-        padding: 25px 15px;
-        border-radius: 20px;
-    }
-
-    .modal-close {
-        width: 36px;
-        height: 36px;
-    }
-
-    .qr-code {
-        width: 160px;
-        height: 160px;
-    }
-
-    .modal-title {
-        font-size: 1.1rem;
-    }
-
-    .requisites {
-        font-size: 0.8rem;
-        padding: 12px;
-        border-left-width: 3px;
+        border-left-width: 4px;
+        line-height: 1.7;
     }
 
     .modal-button-close {
-        padding: 14px;
-        font-size: 0.95rem;
+        padding: 15px;
+        font-size: 1rem;
+    }
+
+    .qr-fullscreen-close {
+        width: 40px;
+        height: 40px;
+        top: 15px;
+        right: 15px;
+    }
+
+    .qr-fullscreen-image {
+        max-width: 95vw;
+        max-height: 80vh;
+        padding: 15px;
     }
 }
