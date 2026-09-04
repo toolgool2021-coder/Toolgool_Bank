@@ -5,14 +5,14 @@
 
 const Banks = [
     {
-        id: "SimbaBank",
-        name: "Simba",
-        icon: "image/banks/SimbaBank.png",
-        qr: "image/banks/SimbaBank_qr.png",
+        id: "SimBank",
+        name: "SimBank",
+        icon: "image/banks/SimBank.png",
+        qr: "image/banks/SimBank_qr.png",
         text: `Реквизиты:
 
 Номер карты:
-9966 **** **** ****
++996 506 277 629
 
 Получатель:
 Toolgool
@@ -21,14 +21,14 @@ Toolgool
 Поддежка проектов
     },
     {
-        id: "Оbank",
-        name: "Obank",
-        icon: "image/banks/Obank.png",
-        qr: "image/banks/Obank_qr.png",
+        id: "O!Bank",
+        name: "O!Bank",
+        icon: "image/banks/O!Bank.png",
+        qr: "image/banks/O!Bank_qr.png",
         text: `Реквизиты:
 
 Номер карты:
-4400 **** **** ****
++996 705 445 997
 
 Получатель:
 Toolgool
@@ -37,19 +37,19 @@ Toolgool
 Комиссия 1% от суммы`
     },
     {
-        id: "optima",
-        name: "Optima Bank",
-        icon: "image/banks/optima.png",
-        qr: "image/banks/optima_qr.png",
+        id: "MegaPay",
+        name: "MegaPay",
+        icon: "image/banks/MegaPay.png",
+        qr: "image/banks/MegaPay_qr.png",
         text: `Реквизиты:
 
 Номер карты:
-2200 **** **** ****
++996 552 808 695
 
 Получатель:
 Toolgool
 
 Примечание:
-Доступно 24/7`
+Оплата по номеру телефона`
     }
 ];
