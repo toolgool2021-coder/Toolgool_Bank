@@ -133,7 +133,7 @@ function setupEventListeners() {
     const nicknameLink = document.getElementById('nicknameLink');
     if (nicknameLink) {
         nicknameLink.addEventListener('click', () => {
-            window.open('https://t.me/toolgool', '_blank');
+            window.open('toolgool.duckdns.org', '_blank');
         });
     }
     
