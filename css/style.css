@@ -411,6 +411,8 @@ body::before {
 .qr-section {
     display: flex;
     justify-content: center;
+    align-items: center;
+    padding: 20px;
     animation: fadeIn 0.6s ease-out 0.1s both;
 }
 
@@ -424,11 +426,13 @@ body::before {
 }
 
 .qr-code {
-    width: 280px;
-    height: 280px;
+    width: 100%;
+    max-width: 320px;
+    height: auto;
+    aspect-ratio: 1;
     border-radius: 20px;
-    padding: 15px;
-    background: rgba(255, 255, 255, 0.95);
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.98);
     box-shadow: 0 10px 40px rgba(88, 44, 131, 0.3);
     object-fit: contain;
     animation: zoomIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
@@ -534,8 +538,8 @@ body::before {
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.85);
-    backdrop-filter: blur(8px);
+    background: rgba(0, 0, 0, 0.92);
+    backdrop-filter: blur(10px);
     display: none;
     align-items: center;
     justify-content: center;
@@ -557,18 +561,21 @@ body::before {
     align-items: center;
     justify-content: center;
     animation: zoomIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    width: 100%;
+    height: 100%;
 }
 
 .qr-fullscreen-image {
+    width: 90%;
+    height: 90%;
     max-width: 90vw;
     max-height: 90vh;
-    width: auto;
-    height: auto;
-    border-radius: 25px;
-    padding: 20px;
-    background: rgba(255, 255, 255, 0.98);
-    box-shadow: 0 25px 80px rgba(0, 0, 0, 0.7);
+    border-radius: 30px;
+    padding: 30px;
+    background: rgba(255, 255, 255, 0.99);
+    box-shadow: 0 30px 100px rgba(0, 0, 0, 0.8);
     object-fit: contain;
+    animation: zoomIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
 /* Кнопка закрытия полноэкранного QR */
@@ -576,8 +583,8 @@ body::before {
     position: absolute;
     top: 30px;
     right: 30px;
-    width: 50px;
-    height: 50px;
+    width: 60px;
+    height: 60px;
     border: none;
     background: rgba(255, 255, 255, 0.15);
     border-radius: 50%;
@@ -588,19 +595,20 @@ body::before {
     transition: all 0.3s ease;
     z-index: 2001;
     backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.3);
+    border: 2px solid rgba(255, 255, 255, 0.3);
 }
 
 .qr-fullscreen-close:hover {
     background: rgba(255, 255, 255, 0.25);
     transform: rotate(90deg);
     border-color: rgba(255, 255, 255, 0.5);
+    box-shadow: 0 0 30px rgba(255, 255, 255, 0.3);
 }
 
 .qr-fullscreen-close span {
     position: absolute;
-    width: 26px;
-    height: 3px;
+    width: 28px;
+    height: 4px;
     background: #ffffff;
     border-radius: 2px;
 }
@@ -656,8 +664,7 @@ body::before {
     }
 
     .qr-code {
-        width: 240px;
-        height: 240px;
+        max-width: 280px;
     }
 
     .modal-title {
@@ -671,15 +678,17 @@ body::before {
     }
 
     .qr-fullscreen-close {
-        width: 45px;
-        height: 45px;
+        width: 50px;
+        height: 50px;
         top: 20px;
         right: 20px;
     }
 
     .qr-fullscreen-image {
-        max-width: 85vw;
-        max-height: 85vh;
+        width: 95%;
+        height: 95%;
+        padding: 25px;
+        border-radius: 25px;
     }
 }
 
@@ -731,8 +740,8 @@ body::before {
     }
 
     .qr-code {
-        width: 200px;
-        height: 200px;
+        max-width: 250px;
+        padding: 15px;
     }
 
     .modal-title {
@@ -752,15 +761,16 @@ body::before {
     }
 
     .qr-fullscreen-close {
-        width: 40px;
-        height: 40px;
+        width: 45px;
+        height: 45px;
         top: 15px;
         right: 15px;
     }
 
     .qr-fullscreen-image {
-        max-width: 95vw;
-        max-height: 80vh;
+        width: 97%;
+        height: 97%;
         padding: 15px;
+        border-radius: 20px;
     }
 }
