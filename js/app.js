@@ -1,6 +1,6 @@
 /**
  * Основной скрипт приложения
- * Управляет динамическим созданием кнопок банков и работой модального окна
+ * Управляет динамическим созданием кнопок банков и работой модальных окон
  */
 
 // Ждём загрузки DOM перед инициализацией
@@ -89,11 +89,37 @@ function openModal(bank) {
 }
 
 /**
- * Закрытие модального окна
+ * Закрытие основного модального окна
  */
 function closeModal() {
     const modal = document.getElementById('modalOverlay');
     modal.classList.remove('active');
+    
+    // Восстанавливаем прокрутку основной страницы
+    document.body.style.overflow = 'auto';
+}
+
+/**
+ * Открытие полноэкранного QR
+ * @param {string} qrSrc - Источник QR изображения
+ */
+function openQRFullscreen(qrSrc) {
+    const fullscreenOverlay = document.getElementById('qrFullscreenOverlay');
+    const fullscreenImage = document.getElementById('qrFullscreenImage');
+    
+    fullscreenImage.src = qrSrc;
+    fullscreenOverlay.classList.add('active');
+    
+    // Предотвращаем прокрутку основной страницы
+    document.body.style.overflow = 'hidden';
+}
+
+/**
+ * Закрытие полноэкранного QR
+ */
+function closeQRFullscreen() {
+    const fullscreenOverlay = document.getElementById('qrFullscreenOverlay');
+    fullscreenOverlay.classList.remove('active');
     
     // Восстанавливаем прокрутку основной страницы
     document.body.style.overflow = 'auto';
@@ -111,6 +137,8 @@ function setupEventListeners() {
         });
     }
     
+    // ============ ОСНОВНОЕ МОДАЛЬНОЕ ОКНО ============
+    
     // Кнопка закрытия модаля (X)
     const modalCloseBtn = document.getElementById('modalCloseBtn');
     if (modalCloseBtn) {
@@ -126,17 +154,55 @@ function setupEventListeners() {
     // Закрытие по ESC
     document.addEventListener('keydown', (event) => {
         if (event.key === 'Escape') {
-            closeModal();
+            const fullscreenOverlay = document.getElementById('qrFullscreenOverlay');
+            const mainModal = document.getElementById('modalOverlay');
+            
+            // Приоритет: сначала закрываем полноэкранный QR, если он открыт
+            if (fullscreenOverlay.classList.contains('active')) {
+                closeQRFullscreen();
+            } else if (mainModal.classList.contains('active')) {
+                closeModal();
+            }
         }
     });
     
-    // Закрытие по клику вне окна
+    // Закрытие по клику вне окна (основное модальное окно)
     const modalOverlay = document.getElementById('modalOverlay');
     if (modalOverlay) {
         modalOverlay.addEventListener('click', (event) => {
             // Проверяем, что клик был именно на overlay, а не на содержимое модаля
             if (event.target === modalOverlay) {
                 closeModal();
+            }
+        });
+    }
+    
+    // ============ ПОЛНОЭКРАННОЕ QR ============
+    
+    // Клик на QR код в основном модальном окне - открывает полноэкранный просмотр
+    const qrImage = document.getElementById('qrImage');
+    if (qrImage) {
+        qrImage.addEventListener('click', () => {
+            const qrSrc = qrImage.src;
+            if (qrSrc) {
+                openQRFullscreen(qrSrc);
+            }
+        });
+    }
+    
+    // Кнопка закрытия полноэкранного QR (X)
+    const qrFullscreenCloseBtn = document.getElementById('qrFullscreenCloseBtn');
+    if (qrFullscreenCloseBtn) {
+        qrFullscreenCloseBtn.addEventListener('click', closeQRFullscreen);
+    }
+    
+    // Закрытие полноэкранного QR по клику вне изображения
+    const qrFullscreenOverlay = document.getElementById('qrFullscreenOverlay');
+    if (qrFullscreenOverlay) {
+        qrFullscreenOverlay.addEventListener('click', (event) => {
+            // Проверяем, что клик был на overlay, а не на изображение или кнопку закрытия
+            if (event.target === qrFullscreenOverlay) {
+                closeQRFullscreen();
             }
         });
     }
