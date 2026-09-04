@@ -14,11 +14,35 @@ html {
 
 body {
     font-family: 'Inter', 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
-    background: #000000;
+    background: linear-gradient(135deg, #0a0e27 0%, #1a1a2e 50%, #16213e 100%);
     color: #e0e0e0;
     min-height: 100vh;
     overflow-x: hidden;
     position: relative;
+}
+
+/* Анимированный фон */
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle at 20% 50%, rgba(88, 44, 131, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(88, 44, 131, 0.05) 0%, transparent 50%);
+    pointer-events: none;
+    z-index: -1;
+    animation: backgroundShift 15s ease-in-out infinite;
+}
+
+@keyframes backgroundShift {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.8;
+    }
 }
 
 /* =====================================
@@ -317,8 +341,8 @@ body {
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.85);
-    backdrop-filter: blur(8px);
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(5px);
     display: none;
     align-items: center;
     justify-content: center;
@@ -335,14 +359,14 @@ body {
 
 /* Содержимое модаля */
 .modal-content {
-    background: linear-gradient(135deg, rgba(20, 20, 40, 0.98) 0%, rgba(15, 20, 50, 0.98) 100%);
+    background: linear-gradient(135deg, rgba(26, 26, 46, 0.95) 0%, rgba(22, 33, 62, 0.95) 100%);
     border-radius: 30px;
     padding: 45px 35px;
     max-width: 520px;
     width: 100%;
     backdrop-filter: blur(20px);
     border: 1px solid rgba(255, 255, 255, 0.2);
-    box-shadow: 0 25px 60px rgba(0, 0, 0, 0.7);
+    box-shadow: 0 25px 60px rgba(0, 0, 0, 0.5);
     animation: modalPopIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
     position: relative;
     max-height: 90vh;
@@ -557,7 +581,7 @@ body {
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.95);
+    background: linear-gradient(135deg, rgba(10, 14, 39, 0.95) 0%, rgba(26, 26, 46, 0.95) 100%);
     backdrop-filter: blur(10px);
     display: none;
     align-items: center;
@@ -592,7 +616,7 @@ body {
     border-radius: 30px;
     padding: 30px;
     background: rgba(255, 255, 255, 0.99);
-    box-shadow: 0 30px 100px rgba(0, 0, 0, 0.9);
+    box-shadow: 0 30px 100px rgba(0, 0, 0, 0.8);
     object-fit: contain;
     animation: zoomIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
@@ -614,21 +638,21 @@ body {
     transition: all 0.3s ease;
     z-index: 2001;
     backdrop-filter: blur(10px);
-    border: 2px solid rgba(255, 255, 255, 0.3);
+    border: 2px solid rgba(255, 255, 255, 0.5);
 }
 
 .qr-fullscreen-close:hover {
     background: rgba(255, 255, 255, 0.25);
     transform: rotate(90deg);
-    border-color: rgba(255, 255, 255, 0.5);
-    box-shadow: 0 0 30px rgba(255, 255, 255, 0.3);
+    border-color: rgba(255, 255, 255, 0.7);
+    box-shadow: 0 0 30px rgba(255, 255, 255, 0.4);
 }
 
 .qr-fullscreen-close span {
     position: absolute;
     width: 28px;
     height: 4px;
-    background: #ffffff;
+    background: rgba(255, 255, 255, 0.9);
     border-radius: 2px;
 }
 
