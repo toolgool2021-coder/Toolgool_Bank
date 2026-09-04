@@ -14,35 +14,52 @@ html {
 
 body {
     font-family: 'Inter', 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
-    background: linear-gradient(135deg, #0a0e27 0%, #1a1a2e 50%, #16213e 100%);
+    background: #000000;
     color: #e0e0e0;
     min-height: 100vh;
     overflow-x: hidden;
     position: relative;
 }
 
-/* Анимированный фон */
-body::before {
-    content: '';
+/* =====================================
+   КОНТЕЙНЕР ЧАСТИЦ
+   ===================================== */
+
+.particles-container {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background: radial-gradient(circle at 20% 50%, rgba(88, 44, 131, 0.1) 0%, transparent 50%),
-                radial-gradient(circle at 80% 80%, rgba(88, 44, 131, 0.05) 0%, transparent 50%);
     pointer-events: none;
-    z-index: -1;
-    animation: backgroundShift 15s ease-in-out infinite;
+    z-index: 0;
 }
 
-@keyframes backgroundShift {
-    0%, 100% {
-        opacity: 1;
+.particle {
+    position: fixed;
+    pointer-events: none;
+    border-radius: 50%;
+    background: radial-gradient(circle at 30% 30%, rgba(88, 44, 131, 0.8), rgba(44, 88, 131, 0.4));
+    box-shadow: 0 0 10px rgba(88, 44, 131, 0.6);
+    z-index: 0;
+}
+
+@keyframes particleFloat {
+    0% {
+        transform: translateY(0) translateX(0) rotate(0deg);
+        opacity: 0.6;
     }
     50% {
         opacity: 0.8;
     }
+    100% {
+        transform: translateY(-150px) translateX(50px) rotate(360deg);
+        opacity: 0;
+    }
+}
+
+.particle {
+    animation: particleFloat linear infinite;
 }
 
 /* =====================================
@@ -57,6 +74,8 @@ body::before {
     flex-direction: column;
     gap: 70px;
     animation: fadeInUp 0.8s ease-out;
+    position: relative;
+    z-index: 10;
 }
 
 @keyframes fadeInUp {
@@ -298,8 +317,8 @@ body::before {
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.6);
-    backdrop-filter: blur(5px);
+    background: rgba(0, 0, 0, 0.85);
+    backdrop-filter: blur(8px);
     display: none;
     align-items: center;
     justify-content: center;
@@ -316,14 +335,14 @@ body::before {
 
 /* Содержимое модаля */
 .modal-content {
-    background: linear-gradient(135deg, rgba(26, 26, 46, 0.95) 0%, rgba(22, 33, 62, 0.95) 100%);
+    background: linear-gradient(135deg, rgba(20, 20, 40, 0.98) 0%, rgba(15, 20, 50, 0.98) 100%);
     border-radius: 30px;
     padding: 45px 35px;
     max-width: 520px;
     width: 100%;
     backdrop-filter: blur(20px);
     border: 1px solid rgba(255, 255, 255, 0.2);
-    box-shadow: 0 25px 60px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 25px 60px rgba(0, 0, 0, 0.7);
     animation: modalPopIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
     position: relative;
     max-height: 90vh;
@@ -538,7 +557,7 @@ body::before {
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.92);
+    background: rgba(0, 0, 0, 0.95);
     backdrop-filter: blur(10px);
     display: none;
     align-items: center;
@@ -573,7 +592,7 @@ body::before {
     border-radius: 30px;
     padding: 30px;
     background: rgba(255, 255, 255, 0.99);
-    box-shadow: 0 30px 100px rgba(0, 0, 0, 0.8);
+    box-shadow: 0 30px 100px rgba(0, 0, 0, 0.9);
     object-fit: contain;
     animation: zoomIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
@@ -619,6 +638,40 @@ body::before {
 
 .qr-fullscreen-close span:last-child {
     transform: rotate(-45deg);
+}
+
+/* =====================================
+   ПАРТИКЛЫ ПРИ НАВЕДЕНИИ НА КНОПКУ
+   ===================================== */
+
+.button-particle {
+    position: fixed;
+    pointer-events: none;
+    border-radius: 50%;
+    background: radial-gradient(circle at 30% 30%, rgba(88, 44, 131, 0.9), rgba(44, 88, 131, 0.5));
+    box-shadow: 0 0 15px rgba(88, 44, 131, 0.8);
+    z-index: 999;
+}
+
+@keyframes float {
+    0% {
+        transform: translate(0, 0) scale(1);
+        opacity: 0;
+    }
+    10% {
+        opacity: 1;
+    }
+    90% {
+        opacity: 1;
+    }
+    100% {
+        transform: translate(var(--vx, 0px), var(--vy, 0px)) scale(0);
+        opacity: 0;
+    }
+}
+
+.button-particle {
+    animation: float 1s ease-out forwards;
 }
 
 /* =====================================
