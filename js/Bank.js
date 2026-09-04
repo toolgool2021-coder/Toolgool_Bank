@@ -5,10 +5,10 @@
 
 const Banks = [
     {
-        id: "mbank",
-        name: "MBANK",
-        icon: "image/banks/mbank.png",
-        qr: "image/banks/mbank_qr.png",
+        id: "SimbaBank",
+        name: "Simba",
+        icon: "image/banks/SimbaBank.png",
+        qr: "image/banks/SimbaBank_qr.png",
         text: `Реквизиты:
 
 Номер карты:
@@ -18,13 +18,13 @@ const Banks = [
 Toolgool
 
 Примечание:
-Минимальная сумма 100 BYN`
+Поддежка проектов
     },
     {
-        id: "simbank",
-        name: "Simbank",
-        icon: "image/banks/simbank.png",
-        qr: "image/banks/simbank_qr.png",
+        id: "Оbank",
+        name: "Obank",
+        icon: "image/banks/Obank.png",
+        qr: "image/banks/Obank_qr.png",
         text: `Реквизиты:
 
 Номер карты:
