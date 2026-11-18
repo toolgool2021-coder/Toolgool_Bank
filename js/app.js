@@ -51,7 +51,40 @@
     const data=typeof Banks!=='undefined' ? Banks : window.Banks;
     $('banksContainer').replaceChildren(...data.map(bankButton)); $('paymentCount').textContent=data.length+' способа оплаты';
   } else $('banksContainer').textContent='Способы оплаты временно недоступны.';
-  $('year').textContent=new Date().getFullYear();
+
+  // Decorative balance card: local configuration only, no payment API or account access.
+  const card=$('bankCard');
+  const config=window.ToolgoolCardData || {};
+  if(card){
+    const clean=(value,fallback,max=32)=>String(value??fallback).slice(0,max);
+    $('cardTitle').textContent=clean(config.title,'TL PRIVATE',22);
+    $('cardOwner').textContent=clean(config.owner,'TOOLGOOL',28);
+    $('cardNumber').textContent=clean(config.cardNumber,'••••  ••••  ••••  2026',32);
+    $('cardStatus').textContent=clean(config.status,'PROJECT WALLET',24);
+    const amount=Number(config.balance);
+    const currency=clean(config.currency,'KGS',3).toUpperCase();
+    const locale=clean(config.locale,'ru-RU',20);
+    let formatted='—';
+    try { if(Number.isFinite(amount)) formatted=new Intl.NumberFormat(locale,{maximumFractionDigits:2}).format(amount)+' '+currency; } catch { formatted=Number.isFinite(amount)?amount.toFixed(2)+' '+currency:'—'; }
+    $('cardBalance').textContent=config.showBalance===false?'••••••':formatted;
+    if(/^#[0-9a-fA-F]{6}$/.test(config.accent||'')) card.style.setProperty('--card-accent',config.accent);
+    const reduced=window.matchMedia('(prefers-reduced-motion: reduce)');
+    const canTilt=window.matchMedia('(hover: hover) and (pointer: fine)');
+    function resetCard(){card.style.setProperty('--tilt-x','0deg');card.style.setProperty('--tilt-y','0deg');card.style.setProperty('--glow-x','50%');card.style.setProperty('--glow-y','50%');}
+    card.addEventListener('pointermove',(event)=>{
+      if(!canTilt.matches||reduced.matches)return;
+      const rect=card.getBoundingClientRect();
+      const x=Math.max(0,Math.min(1,(event.clientX-rect.left)/rect.width));
+      const y=Math.max(0,Math.min(1,(event.clientY-rect.top)/rect.height));
+      card.style.setProperty('--tilt-x',((.5-y)*13).toFixed(2)+'deg');
+      card.style.setProperty('--tilt-y',((x-.5)*13).toFixed(2)+'deg');
+      card.style.setProperty('--glow-x',(x*100).toFixed(1)+'%');
+      card.style.setProperty('--glow-y',(y*100).toFixed(1)+'%');
+    });
+    card.addEventListener('pointerleave',resetCard);
+    card.addEventListener('blur',resetCard);
+  }
+\n  $('year').textContent=new Date().getFullYear();
   $('modalCloseBtn').addEventListener('click',closeMain);
   $('modalButtonClose').addEventListener('click',closeMain);
   $('qrExpand').addEventListener('click',openQR);
