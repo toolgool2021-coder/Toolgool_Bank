@@ -92,3 +92,17 @@ footer{border-color:#ffffff18}
 .payments{padding-top:52px!important}
 @media(max-width:850px){.hero{padding:55px 0 65px!important}.hero-visual{padding:42px 18px 12px!important}.bank-card{min-height:280px!important}}
 @media(max-width:560px){.hero{padding:44px 0 56px!important}.hero h1{font-size:clamp(33px,8.5vw,43px)!important}.hero .intro{font-size:13px!important}.hero-visual{padding:36px 8px 10px!important}.bank-card{min-height:0!important;aspect-ratio:1.52!important;padding:20px 21px!important}.card-chip{margin-top:11px!important}.card-balance-label{margin-top:12px!important}.card-balance{font-size:clamp(23px,6vw,30px)!important}.card-bottom{padding-top:10px!important}.hero-main .author{margin-top:24px!important}.payments{padding-top:37px!important}}
+
+/* Simulated income animation */
+.bank-card{isolation:isolate}
+.card-income{position:absolute;z-index:6;right:25px;top:47%;font-weight:800;font-size:22px;color:#a5ffdb;opacity:0;pointer-events:none;text-shadow:0 0 24px #5fffc799}
+.card-income.income-show{animation:incomeDrop 1.8s cubic-bezier(.18,.7,.2,1) both}
+.bank-card.income-flash{animation:incomePulse 1.5s ease-out}
+.card-particles{position:absolute;inset:0;pointer-events:none;overflow:hidden;z-index:5}
+.income-particle{position:absolute;top:56%;left:50%;width:5px;height:5px;border-radius:50%;background:#a3ffe0;box-shadow:0 0 12px #5dffc5;animation:incomeSpark 1.25s var(--delay) ease-out both}
+.card-balance{position:relative;z-index:4}
+@keyframes incomeDrop{0%{opacity:0;transform:translateY(-45px) scale(.75);filter:blur(5px)}18%{opacity:1;transform:translateY(-5px) scale(1.1);filter:blur(0)}55%{opacity:1;transform:translateY(4px) scale(1)}100%{opacity:0;transform:translateY(45px) scale(.92)}}
+@keyframes incomePulse{0%,100%{box-shadow:0 40px 90px #0009,0 0 0 1px #ffffff55 inset,0 0 75px #487cfa24}30%{box-shadow:0 40px 90px #0009,0 0 0 1px #a0ffe8 inset,0 0 75px #43ffbf65}}
+@keyframes incomeSpark{0%{opacity:0;transform:translate(0,0) scale(.2)}18%{opacity:1}100%{opacity:0;transform:translate(var(--dx),var(--dy)) scale(.1)}}
+@media(prefers-reduced-motion:reduce){.card-income.income-show{animation:none;opacity:1;position:absolute}.bank-card.income-flash{animation:none}.income-particle{display:none}}
+@media(max-width:560px){.card-income{font-size:17px;right:14px;top:45%}}
