@@ -84,7 +84,8 @@
     card.addEventListener('pointerleave',resetCard);
     card.addEventListener('blur',resetCard);
   }
-\n  $('year').textContent=new Date().getFullYear();
+
+  $('year').textContent=new Date().getFullYear();
   $('modalCloseBtn').addEventListener('click',closeMain);
   $('modalButtonClose').addEventListener('click',closeMain);
   $('qrExpand').addEventListener('click',openQR);
