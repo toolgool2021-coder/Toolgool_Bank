@@ -67,6 +67,62 @@
     let formatted='—';
     try { if(Number.isFinite(amount)) formatted=new Intl.NumberFormat(locale,{maximumFractionDigits:2}).format(amount)+' '+currency; } catch { formatted=Number.isFinite(amount)?amount.toFixed(2)+' '+currency:'—'; }
     $('cardBalance').textContent=config.showBalance===false?'••••••':formatted;
+    // Visually simulated incoming payments. The running total is local to this page.
+    const balanceNode=$('cardBalance');
+    const incomeNode=$('cardIncome');
+    const particlesNode=$('cardParticles');
+    const simulation=config.simulation || {};
+    const enabled=simulation.enabled===true && config.showBalance!==false && Number.isFinite(amount);
+    const clamp=(n,min,max,fallback)=>Number.isFinite(Number(n))?Math.min(max,Math.max(min,Number(n))):fallback;
+    const interval=clamp(simulation.intervalSeconds,5,3600,12)*1000;
+    const delay=clamp(simulation.startDelaySeconds,1,3600,3)*1000;
+    const duration=clamp(simulation.animationMs,300,3000,1350);
+    const low=clamp(simulation.minAmount,1,100000,25);
+    const high=clamp(simulation.maxAmount,low,1000000,250);
+    let current=amount;
+    let animationFrame=0;
+    const formatMoney=(value)=>{try{return new Intl.NumberFormat(locale,{maximumFractionDigits:2}).format(value)+' '+currency;}catch{return value.toFixed(2)+' '+currency;}};
+    function simulateIncome(){
+      if(document.hidden || !card.isConnected)return;
+      const incoming=Math.round((low+Math.random()*(high-low))*100)/100;
+      const before=current;
+      current=Math.round((current+incoming)*100)/100;
+      incomeNode.textContent='+'+formatMoney(incoming);
+      incomeNode.classList.remove('income-show');
+      void incomeNode.offsetWidth;
+      incomeNode.classList.add('income-show');
+      card.classList.remove('income-flash');
+      void card.offsetWidth;
+      card.classList.add('income-flash');
+      particlesNode.replaceChildren();
+      if(!reduced.matches){
+        for(let i=0;i<12;i++){
+          const particle=document.createElement('span');
+          particle.className='income-particle';
+          particle.style.setProperty('--dx',((Math.random()-.5)*230).toFixed(0)+'px');
+          particle.style.setProperty('--dy',(-35-Math.random()*130).toFixed(0)+'px');
+          particle.style.setProperty('--delay',(Math.random()*.22).toFixed(2)+'s');
+          particlesNode.append(particle);
+        }
+      }
+      cancelAnimationFrame(animationFrame);
+      if(reduced.matches){balanceNode.textContent=formatMoney(current);return;}
+      const start=performance.now();
+      const tick=(now)=>{
+        const progress=Math.min(1,(now-start)/duration);
+        const ease=1-Math.pow(1-progress,3);
+        balanceNode.textContent=formatMoney(before+(current-before)*ease);
+        if(progress<1)animationFrame=requestAnimationFrame(tick);
+        else balanceNode.textContent=formatMoney(current);
+      };
+      animationFrame=requestAnimationFrame(tick);
+    }
+    if(enabled){
+      window.setTimeout(()=>{
+        simulateIncome();
+        window.setInterval(simulateIncome,interval);
+      },delay);
+    }
     if(/^#[0-9a-fA-F]{6}$/.test(config.accent||'')) card.style.setProperty('--card-accent',config.accent);
     const reduced=window.matchMedia('(prefers-reduced-motion: reduce)');
     const canTilt=window.matchMedia('(hover: hover) and (pointer: fine)');
