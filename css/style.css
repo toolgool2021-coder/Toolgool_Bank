@@ -70,3 +70,25 @@ body:before{content:"";position:fixed;inset:0;pointer-events:none;opacity:.17;ba
 footer{border-color:#ffffff18}
 @media(max-width:850px){.hero{padding:65px 0 70px;gap:25px}.hero-visual{padding:22px 0 12px}.author{margin-top:0}}
 @media(max-width:560px){.shell{width:calc(100% - 32px)}.hero{padding:52px 0 65px;gap:22px}.hero h1{font-size:clamp(36px,9.2vw,50px)}.hero .intro{font-size:13px;line-height:1.8}.hero-visual{padding:18px 8px 8px}.card-orbit{inset:-10px}.orbit-two{inset:-17px}.payments{padding:44px 0 70px}.bank-button{min-height:112px;border-radius:17px;padding:18px}.section-heading{gap:15px}}
+
+
+/* Layout correction: compact, centered premium hero */
+.hero{display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:center!important;gap:0!important;padding:68px 0 82px!important;text-align:center}
+.hero-main{display:flex!important;flex-direction:column;align-items:center;width:100%;max-width:850px;order:0}
+.hero-main>.eyebrow{margin-bottom:20px}
+.hero h1{font-size:clamp(36px,4.6vw,64px)!important;line-height:1.1!important;max-width:830px!important;margin:0 auto 20px!important}
+.hero .intro{font-size:14px!important;max-width:590px!important;line-height:1.7!important;margin:0 auto!important}
+.hero-visual{display:flex!important;align-items:center!important;justify-content:center!important;order:1!important;width:100%;min-height:0!important;padding:48px 0 14px!important;margin:0!important}
+.card-stage{width:min(100%,470px)!important;max-width:470px!important;margin:0 auto!important;perspective:1200px}
+.bank-card{height:auto!important;min-height:290px!important;aspect-ratio:1.59!important;padding:26px 30px!important;display:flex!important;flex-direction:column!important;align-items:stretch!important;text-align:left!important}
+.card-top{flex-shrink:0}
+.card-chip{flex-shrink:0;margin-top:18px!important}
+.card-balance-label{margin-top:20px!important}
+.card-balance{font-size:clamp(28px,3.5vw,37px)!important;margin-top:5px!important;line-height:1.2!important}
+.card-bottom{margin-top:auto!important;padding-top:18px!important}
+.card-hint{margin:24px 0 0!important}
+.card-disclaimer{margin:6px 0 0!important}
+.hero-main .author{order:0!important;margin:28px auto 0!important}
+.payments{padding-top:52px!important}
+@media(max-width:850px){.hero{padding:55px 0 65px!important}.hero-visual{padding:42px 18px 12px!important}.bank-card{min-height:280px!important}}
+@media(max-width:560px){.hero{padding:44px 0 56px!important}.hero h1{font-size:clamp(33px,8.5vw,43px)!important}.hero .intro{font-size:13px!important}.hero-visual{padding:36px 8px 10px!important}.bank-card{min-height:0!important;aspect-ratio:1.52!important;padding:20px 21px!important}.card-chip{margin-top:11px!important}.card-balance-label{margin-top:12px!important}.card-balance{font-size:clamp(23px,6vw,30px)!important}.card-bottom{padding-top:10px!important}.hero-main .author{margin-top:24px!important}.payments{padding-top:37px!important}}
