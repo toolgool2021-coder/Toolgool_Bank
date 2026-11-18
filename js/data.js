@@ -23,6 +23,12 @@ window.ToolgoolCardData = {
     expenseChance: 0.4, // вероятность уменьшения баланса (40%)
     minExpense: 10,
     maxExpense: 140,
-    minimumBalance: 0
+    minimumBalance: 0, // нижний предел баланса
+    maximumBalance: 2000, // верхний предел баланса
+    burstChance: 0.38, // шанс серии операций (38%)
+    burstMin: 2, // минимум операций в серии
+    burstMax: 4, // максимум операций в серии
+    burstGapMinSeconds: 0.7, // минимальная пауза внутри серии
+    burstGapMaxSeconds: 1.8 // максимальная пауза внутри серии
   }
 };
