@@ -24,7 +24,7 @@ window.ToolgoolCardData = {
     minExpense: 10,
     maxExpense: 140,
     minimumBalance: 0, // нижний предел баланса
-    maximumBalance: 2000, // верхний предел баланса
+    maximumBalance: 900, // верхний предел баланса
     burstChance: 0.38, // шанс серии операций (38%)
     burstMin: 2, // минимум операций в серии
     burstMax: 4, // максимум операций в серии
