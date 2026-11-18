@@ -16,6 +16,13 @@ window.ToolgoolCardData = {
     minAmount: 25,
     maxAmount: 250,
     animationMs: 1350,
-    startDelaySeconds: 3
+    startDelaySeconds: 3,
+    randomTiming: true, // случайные интервалы вместо постоянных
+    minIntervalSeconds: 3,
+    maxIntervalSeconds: 18,
+    expenseChance: 0.4, // вероятность уменьшения баланса (40%)
+    minExpense: 10,
+    maxExpense: 140,
+    minimumBalance: 0
   }
 };
