@@ -85,25 +85,41 @@
     const spendHigh=clamp(simulation.maxExpense,spendLow,1000000,140);
     const spendChance=clamp(simulation.expenseChance,0,1,.4);
     const minBalance=clamp(simulation.minimumBalance,0,100000000,0);
-    let current=amount;
+    const maxBalance=clamp(simulation.maximumBalance,minBalance,100000000,2000);
+    const burstChance=clamp(simulation.burstChance,0,1,.38);
+    const burstMin=Math.round(clamp(simulation.burstMin,2,12,2));
+    const burstMax=Math.round(clamp(simulation.burstMax,burstMin,12,4));
+    const burstGapMin=clamp(simulation.burstGapMinSeconds,.4,30,.7)*1000;
+    const burstGapMax=clamp(simulation.burstGapMaxSeconds,burstGapMin/1000,30,1.8)*1000;
+    let current=Math.min(maxBalance,Math.max(minBalance,amount));
+    let displayed=current;
     let animationFrame=0;
     let timer=0;
     const formatMoney=(value)=>{try{return new Intl.NumberFormat(locale,{maximumFractionDigits:2}).format(value)+' '+currency;}catch{return value.toFixed(2)+' '+currency;}};
     const reducedMotion=window.matchMedia('(prefers-reduced-motion: reduce)');
     const randomBetween=(min,max)=>Math.round((min+Math.random()*(max-min))*100)/100;
+    balanceNode.textContent=config.showBalance===false?'••••••':formatMoney(current);
     function scheduleNext(){
       if(!card.isConnected)return;
       const wait=simulation.randomTiming===false?baseInterval:randomBetween(minInterval,maxInterval);
-      timer=window.setTimeout(simulateTransaction,wait);
+      timer=window.setTimeout(()=>simulateTransaction(0),wait);
     }
-    function simulateTransaction(){
+    function simulateTransaction(remaining){
       if(!card.isConnected)return;
       if(document.hidden){scheduleNext();return;}
-      const expense=Math.random()<spendChance && current>minBalance;
+      if(remaining===0 && Math.random()<burstChance)remaining=Math.floor(randomBetween(burstMin,burstMax+0.999))-1;
+      const roomUp=Math.round((maxBalance-current)*100)/100;
+      const roomDown=Math.round((current-minBalance)*100)/100;
+      if(roomUp<=0 && roomDown<=0){scheduleNext();return;}
+      let expense=Math.random()<spendChance;
+      if(roomUp<=0)expense=true;
+      if(roomDown<=0)expense=false;
+      const available=expense?roomDown:roomUp;
       const requested=expense?randomBetween(spendLow,spendHigh):randomBetween(low,high);
-      const delta=expense?-Math.min(requested,Math.max(0,current-minBalance)):requested;
-      const before=current;
-      current=Math.round((current+delta)*100)/100;
+      const delta=Math.round((expense?-1:1)*Math.min(requested,available)*100)/100;
+      if(delta===0){scheduleNext();return;}
+      const before=displayed;
+      current=Math.min(maxBalance,Math.max(minBalance,Math.round((current+delta)*100)/100));
       incomeNode.textContent=(delta>=0?'+':'−')+formatMoney(Math.abs(delta));
       incomeNode.classList.toggle('income-negative',delta<0);
       incomeNode.classList.remove('income-show');
@@ -127,21 +143,24 @@
         }
       }
       cancelAnimationFrame(animationFrame);
-      if(reducedMotion.matches)balanceNode.textContent=formatMoney(current);
+      if(reducedMotion.matches){displayed=current;balanceNode.textContent=formatMoney(current);}
       else{
-        const start=performance.now();
+        const started=performance.now();
+        const animationDuration=remaining>0?Math.min(duration,650):duration;
         const tick=(now)=>{
-          const progress=Math.min(1,(now-start)/duration);
+          const progress=Math.min(1,(now-started)/animationDuration);
           const ease=1-Math.pow(1-progress,3);
-          balanceNode.textContent=formatMoney(before+(current-before)*ease);
+          displayed=before+(current-before)*ease;
+          balanceNode.textContent=formatMoney(displayed);
           if(progress<1)animationFrame=requestAnimationFrame(tick);
-          else balanceNode.textContent=formatMoney(current);
+          else{displayed=current;balanceNode.textContent=formatMoney(current);}
         };
         animationFrame=requestAnimationFrame(tick);
       }
-      scheduleNext();
+      if(remaining>0)timer=window.setTimeout(()=>simulateTransaction(remaining-1),randomBetween(burstGapMin,burstGapMax));
+      else scheduleNext();
     }
-    if(enabled)timer=window.setTimeout(simulateTransaction,delay);
+    if(enabled)timer=window.setTimeout(()=>simulateTransaction(0),delay);
     if(/^#[0-9a-fA-F]{6}$/.test(config.accent||'')) card.style.setProperty('--card-accent',config.accent);
     const reduced=window.matchMedia('(prefers-reduced-motion: reduce)');
     const canTilt=window.matchMedia('(hover: hover) and (pointer: fine)');
