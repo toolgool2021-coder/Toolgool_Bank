@@ -2,7 +2,7 @@
 window.ToolgoolCardData = {
   owner: "TOOLGOOL",
   title: "TL PRIVATE",
-  balance: 125,
+  balance: 0,
   currency: "KGS",
   locale: "ru-RU",
   cardNumber: "••••  ••••  ••••  2026",
