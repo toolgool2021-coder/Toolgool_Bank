@@ -74,6 +74,48 @@
     const simulation=config.simulation || {};
     const enabled=simulation.enabled===true && config.showBalance!==false && Number.isFinite(amount);
     const clamp=(n,min,max,fallback)=>Number.isFinite(Number(n))?Math.min(max,Math.max(min,Number(n))):fallback;
+    // Original synthesized SFX; opt-in to respect browser autoplay and visitors.
+    const soundConfig=config.sound || {};
+    let audio=null, soundOn=false;
+    const soundButton=document.createElement('button');
+    soundButton.type='button';
+    soundButton.textContent='Звук: выкл.';
+    soundButton.setAttribute('aria-pressed','false');
+    soundButton.style.cssText='display:block;margin:12px auto 0;padding:8px 14px;border:1px solid #8296af55;border-radius:20px;background:transparent;color:inherit;font:inherit;font-size:12px;cursor:pointer';
+    function playSfx(positive){
+      if(!soundOn || !audio || audio.state!=='running' || document.hidden)return;
+      const now=audio.currentTime;
+      const volume=clamp(soundConfig.volume,0,.3,.09);
+      const notes=positive?[523.25,783.99,1046.5]:[440,293.66];
+      notes.forEach((hz,i)=>{
+        const oscillator=audio.createOscillator(), gain=audio.createGain();
+        const t=now+i*.045;
+        oscillator.type='sine';
+        oscillator.frequency.setValueAtTime(hz,t);
+        oscillator.frequency.exponentialRampToValueAtTime(hz*(positive?1.025:.94),t+.12);
+        gain.gain.setValueAtTime(.0001,t);
+        gain.gain.exponentialRampToValueAtTime(Math.max(.0001,volume/(1+i*.4)),t+.009);
+        gain.gain.exponentialRampToValueAtTime(.0001,t+.17);
+        oscillator.connect(gain);gain.connect(audio.destination);
+        oscillator.start(t);oscillator.stop(t+.18);
+        oscillator.onended=()=>{oscillator.disconnect();gain.disconnect();};
+      });
+    }
+    if(enabled && soundConfig.enabled!==false){
+      const AudioEngine=window.AudioContext || window.webkitAudioContext;
+      if(AudioEngine){
+        card.parentElement.insertAdjacentElement('afterend',soundButton);
+        soundButton.addEventListener('click',async()=>{
+          if(soundOn){soundOn=false;}
+          else{
+            try{audio=audio||new AudioEngine();await audio.resume();soundOn=audio.state==='running';}catch{soundOn=false;}
+          }
+          soundButton.textContent=soundOn?'Звук: вкл.':'Звук: выкл.';
+          soundButton.setAttribute('aria-pressed',String(soundOn));
+          if(soundOn)playSfx(true);
+        });
+      }
+    }
     const baseInterval=clamp(simulation.intervalSeconds,.5,3600,3)*1000;
     const minInterval=clamp(simulation.minIntervalSeconds,.3,3600,0.8)*1000;
     const maxInterval=clamp(simulation.maxIntervalSeconds,minInterval/1000,3600,4)*1000;
@@ -127,6 +169,7 @@
       const step=Math.min(available,Math.max(.01,randomBetween(lower,upper)));
       const delta=Math.round((expense?-1:1)*step*100)/100;
       if(delta===0){scheduleNext();return;}
+      playSfx(delta>0);
       const before=displayed;
       current=Math.min(maxBalance,Math.max(minBalance,Math.round((current+delta)*100)/100));
       incomeNode.textContent=(delta>=0?'+':'−')+formatMoney(Math.abs(delta));
