@@ -10,6 +10,7 @@ window.ToolgoolCardData = {
   showBalance: true,
   accent: "#83b9ff",
   // Имитация пополнений: не связана с реальными платежами.
+  sound: { enabled: true, volume: 0.09 },
   simulation: {
     enabled: true,
     intervalSeconds: 3, // интервал между поступлениями
