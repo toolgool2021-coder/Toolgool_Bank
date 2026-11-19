@@ -74,11 +74,11 @@
     const simulation=config.simulation || {};
     const enabled=simulation.enabled===true && config.showBalance!==false && Number.isFinite(amount);
     const clamp=(n,min,max,fallback)=>Number.isFinite(Number(n))?Math.min(max,Math.max(min,Number(n))):fallback;
-    const baseInterval=clamp(simulation.intervalSeconds,2,3600,12)*1000;
-    const minInterval=clamp(simulation.minIntervalSeconds,1,3600,3)*1000;
-    const maxInterval=clamp(simulation.maxIntervalSeconds,minInterval/1000,3600,18)*1000;
+    const baseInterval=clamp(simulation.intervalSeconds,.5,3600,3)*1000;
+    const minInterval=clamp(simulation.minIntervalSeconds,.3,3600,0.8)*1000;
+    const maxInterval=clamp(simulation.maxIntervalSeconds,minInterval/1000,3600,4)*1000;
     const delay=clamp(simulation.startDelaySeconds,0.5,3600,3)*1000;
-    const duration=clamp(simulation.animationMs,300,3000,1350);
+    const duration=clamp(simulation.animationMs,100,3000,420);
     const low=clamp(simulation.minAmount,1,100000,25);
     const high=clamp(simulation.maxAmount,low,1000000,250);
     const spendLow=clamp(simulation.minExpense,1,100000,10);
@@ -89,7 +89,7 @@
     const burstChance=clamp(simulation.burstChance,0,1,.38);
     const burstMin=Math.round(clamp(simulation.burstMin,2,12,2));
     const burstMax=Math.round(clamp(simulation.burstMax,burstMin,12,4));
-    const burstGapMin=clamp(simulation.burstGapMinSeconds,.4,30,.7)*1000;
+    const burstGapMin=clamp(simulation.burstGapMinSeconds,.2,30,.35)*1000;
     const burstGapMax=clamp(simulation.burstGapMaxSeconds,burstGapMin/1000,30,1.8)*1000;
     let current=Math.min(maxBalance,Math.max(minBalance,amount));
     let displayed=current;
@@ -104,19 +104,28 @@
       const wait=simulation.randomTiming===false?baseInterval:randomBetween(minInterval,maxInterval);
       timer=window.setTimeout(()=>simulateTransaction(0),wait);
     }
-    function simulateTransaction(remaining){
+    function simulateTransaction(remaining,canStartBurst=true){
       if(!card.isConnected)return;
       if(document.hidden){scheduleNext();return;}
-      if(remaining===0 && Math.random()<burstChance)remaining=Math.floor(randomBetween(burstMin,burstMax+0.999))-1;
-      const roomUp=Math.round((maxBalance-current)*100)/100;
-      const roomDown=Math.round((current-minBalance)*100)/100;
+      if(canStartBurst && remaining===0 && Math.random()<burstChance)remaining=burstMin+Math.floor(Math.random()*(burstMax-burstMin+1))-1;
+      const span=maxBalance-minBalance;
+      if(span<.02){scheduleNext();return;}
+      const position=Math.min(1,Math.max(0,(current-minBalance)/span));
+      const roomUp=Math.max(0,Math.floor((maxBalance-current)*100+1e-6)-1)/100;
+      const roomDown=Math.max(0,Math.floor((current-minBalance)*100+1e-6)-1)/100;
       if(roomUp<=0 && roomDown<=0){scheduleNext();return;}
-      let expense=Math.random()<spendChance;
+      const softness=clamp(simulation.boundaryBias,0,1,.8);
+      const chance=Math.min(.97,Math.max(.03,spendChance+(position-.5)*2*softness));
+      let expense=Math.random()<chance;
       if(roomUp<=0)expense=true;
       if(roomDown<=0)expense=false;
       const available=expense?roomDown:roomUp;
-      const requested=expense?randomBetween(spendLow,spendHigh):randomBetween(low,high);
-      const delta=Math.round((expense?-1:1)*Math.min(requested,available)*100)/100;
+      const stepFraction=clamp(simulation.maxStepFraction,.01,1,.28);
+      const limit=Math.max(.01,Math.min(expense?spendHigh:high,span*stepFraction,available*.75));
+      const upper=Math.min(available,limit);
+      const lower=Math.min(upper,expense?spendLow:low,upper*.4);
+      const step=Math.min(available,Math.max(.01,randomBetween(lower,upper)));
+      const delta=Math.round((expense?-1:1)*step*100)/100;
       if(delta===0){scheduleNext();return;}
       const before=displayed;
       current=Math.min(maxBalance,Math.max(minBalance,Math.round((current+delta)*100)/100));
@@ -146,7 +155,7 @@
       if(reducedMotion.matches){displayed=current;balanceNode.textContent=formatMoney(current);}
       else{
         const started=performance.now();
-        const animationDuration=remaining>0?Math.min(duration,650):duration;
+        const animationDuration=remaining>0?Math.min(duration,260):duration;
         const tick=(now)=>{
           const progress=Math.min(1,(now-started)/animationDuration);
           const ease=1-Math.pow(1-progress,3);
@@ -157,7 +166,7 @@
         };
         animationFrame=requestAnimationFrame(tick);
       }
-      if(remaining>0)timer=window.setTimeout(()=>simulateTransaction(remaining-1),randomBetween(burstGapMin,burstGapMax));
+      if(remaining>0)timer=window.setTimeout(()=>simulateTransaction(remaining-1,false),randomBetween(burstGapMin,burstGapMax));
       else scheduleNext();
     }
     if(enabled)timer=window.setTimeout(()=>simulateTransaction(0),delay);
